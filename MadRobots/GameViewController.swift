@@ -49,7 +49,7 @@ class GameViewController: UIViewController, WebSocketDelegate {
         let player = [
             "name": "\(scene!.date)",
             "x": scene!.sprite.position.x,
-            "x": scene!.sprite.position.y
+            "y": scene!.sprite.position.y
         ]
         players["\(scene!.date)"] = scene!.sprite
         
