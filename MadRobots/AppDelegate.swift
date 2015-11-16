@@ -7,12 +7,13 @@
 //
 
 import UIKit
-
+import Starscream
+//192.168.0.195
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var websocket = WebSocket(url: NSURL(string: "ws://192.168.0.195:8080")!)
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
