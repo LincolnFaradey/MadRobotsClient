@@ -13,7 +13,7 @@ import Starscream
 class GameViewController: UIViewController, WebSocketDelegate {
     let websocket = (UIApplication.sharedApplication().delegate as! AppDelegate).websocket
     let scene = GameScene(fileNamed:"GameScene")
-    var players = [String: SKSpriteNode]()
+    var robots = [String: Robot]()
     
     
     override func viewDidLoad() {
@@ -48,10 +48,10 @@ class GameViewController: UIViewController, WebSocketDelegate {
 
         let player = [
             "name": "\(scene!.date)",
-            "x": scene!.sprite.position.x,
-            "y": scene!.sprite.position.y
+            "x": scene!.robot.position.x,
+            "y": scene!.robot.position.y
         ]
-        players["\(scene!.date)"] = scene!.sprite
+        robots["\(scene!.date)"] = scene!.robot
         
         let data = try! NSJSONSerialization.dataWithJSONObject(player, options: .PrettyPrinted)
         websocket.writeData(data)
@@ -73,33 +73,21 @@ class GameViewController: UIViewController, WebSocketDelegate {
             
             print(json)
 
-            if let p = players[name] {
+            if let p = robots[name] {
                 if x == y && x == 0.0 {
-                    print("remove")
-                    players[name]?.removeFromParent()
+                    p.removeFromParent()
                     return
                 }
+                
                 let dist = CGPointMake(x, y)
-                let rotation = scene!.rotateAction(players[name]!.position, direction: dist)
-                let action = SKAction.moveTo(CGPointMake(x, y), duration: 1.5)
-                p.runAction(SKAction.sequence([rotation, action]))
+                p.moveTo(dist)
             } else {
-                let sp = SKSpriteNode(imageNamed: "Spaceship")
-                sp.name = "robot"
+                let sp = Robot(name: "robot", scale: 0.1)
                 sp.position = CGPointMake(x, y)
-                sp.xScale = 0.1
-                sp.yScale = 0.1
-                players[name] = sp
-                
-                let nameLabel = SKLabelNode(fontNamed:"Chalkduster")
-                nameLabel.text = name;
-                nameLabel.fontSize = 25;
-                nameLabel.position = CGPoint(x:CGRectGetMidX(sp.frame)/2,
-                    y:CGRectGetMidY(sp.frame)/2);
-                
-                players[name]!.addChild(nameLabel)
-                
-                scene?.addChild(players[name]!)
+                sp.userName = name
+                robots[name] = sp
+                sp.showName = true
+                scene?.addChild(robots[name]!)
             }
             
         } catch let error as NSError {

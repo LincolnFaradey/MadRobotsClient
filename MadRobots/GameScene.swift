@@ -9,7 +9,7 @@
 import SpriteKit
 
 class GameScene: SKScene {
-    let sprite = SKSpriteNode(imageNamed: "Spaceship")
+    let robot = Robot(name: "player", scale: 0.1)
     let scoreLabel = SKLabelNode(fontNamed:"Chalkduster")
     var collisions = 0
     let websocket = (UIApplication.sharedApplication().delegate as! AppDelegate).websocket
@@ -24,17 +24,10 @@ class GameScene: SKScene {
         scoreLabel.fontSize = 25
         scoreLabel.text = "Collisions: \(collisions)"
         
-        sprite.position = center
-        sprite.xScale = 0.1
-        sprite.yScale = 0.1
-        sprite.name = "player"
-        let nameLabel = SKLabelNode(fontNamed:"Chalkduster")
-        nameLabel.text = "\(date)";
-        nameLabel.fontSize = 25;
-        nameLabel.position = CGPoint(x:CGRectGetMidX(sprite.frame)/2, y:CGRectGetMidY(sprite.frame)/2);
+        robot.position = center
+        robot.showName = true
         
-        sprite.addChild(nameLabel)
-        self.addChild(sprite)
+        self.addChild(robot)
         self.addChild(scoreLabel)
     }
     
@@ -42,10 +35,7 @@ class GameScene: SKScene {
        /* Called when a touch begins */
         
         let location = touches.first!.locationInNode(self)
-        let move = SKAction.moveTo(location, duration: 1.5)
-        let rotation = rotateAction(sprite.position, direction: location)
-        
-        sprite.runAction(SKAction.sequence([rotation, move]))
+        robot.moveTo(location)
         
         let player = [
             "name": "\(date)",
@@ -57,17 +47,11 @@ class GameScene: SKScene {
         websocket.writeData(data)
     }
     
-    func rotateAction(position: CGPoint, direction: CGPoint) -> SKAction {
-        let dx = Float(position.x - direction.x)
-        let dy = Float(position.y - direction.y)
-        let angle = CGFloat(atan2(dy, dx) + Float(M_PI_2))
-        return SKAction.rotateToAngle(angle, duration: 0.2)
-    }
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         enumerateChildNodesWithName("robot") { node, _ in
-            if CGRectIntersectsRect(self.sprite.frame, node.frame) {
+            if CGRectIntersectsRect(self.robot.frame, node.frame) {
                 self.scoreLabel.text = "Collisions: \(++self.collisions)"
             }
         }
