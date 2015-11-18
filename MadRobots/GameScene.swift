@@ -50,10 +50,17 @@ class GameScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        
+    }
+    
+    override func didEvaluateActions() {
         enumerateChildNodesWithName("robot") { node, _ in
             if CGRectIntersectsRect(self.robot.frame, node.frame) {
+                self.robot.lifeLevel--
+                (node as! Robot).lifeLevel--
                 self.scoreLabel.text = "Collisions: \(++self.collisions)"
             }
         }
     }
+    
 }

@@ -18,7 +18,7 @@ protocol ConnectionManagerDelegate {
 class ConnectionManager {
     static let sharedInstance = ConnectionManager()
     //192.168.0.195
-    let websocket = WebSocket(url: NSURL(string: "ws://192.168.0.195:8080")!)
+    let websocket = WebSocket(url: NSURL(string: "ws://localhost:8080")!)
     var delegate: ConnectionManagerDelegate?
     
     private init() {

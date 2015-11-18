@@ -9,14 +9,20 @@
 import SpriteKit
 
 class Robot: SKSpriteNode {
-    
     let nameLabel = SKLabelNode(fontNamed: "Chalkduster")
     var userName: String?
-    private let date = NSDate()
+    var lifeLevel: Int = 100 {
+        willSet {
+            if newValue <= 0 {
+                self.removeFromParent()
+            }
+        }
+    }
+    
     var showName: Bool {
         set {
             if newValue {
-                nameLabel.text = userName ?? "\(date)"
+                nameLabel.text = userName ?? "\(NSDate())"
                 nameLabel.fontSize = 25;
                 nameLabel.position = CGPoint(x:CGRectGetMidX(self.frame)/2, y:CGRectGetMidY(self.frame)/2);
                 self.addChild(nameLabel)

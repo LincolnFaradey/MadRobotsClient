@@ -17,7 +17,6 @@ class GameViewController: UIViewController, ConnectionManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         ConnectionManager.sharedInstance.delegate = self
-        ConnectionManager.sharedInstance.establishConnection()
         
         if let sc = scene {
             // Configure the view.
@@ -33,6 +32,11 @@ class GameViewController: UIViewController, ConnectionManagerDelegate {
             
             skView.presentScene(sc)
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        ConnectionManager.sharedInstance.establishConnection()
     }
 
     
@@ -65,14 +69,14 @@ class GameViewController: UIViewController, ConnectionManagerDelegate {
             
             print(json)
             
-            if let p = robots[name] {
-                if x == y && x == 0.0 {
-                    p.removeFromParent()
+            if let robot = robots[name] {
+                guard x != y && x != 0.0 else {
+                    robot.removeFromParent()
                     return
                 }
                 
                 let dist = CGPointMake(x, y)
-                p.moveTo(dist)
+                robot.moveTo(dist)
             } else {
                 let sp = Robot(name: "robot", scale: 0.1)
                 sp.position = CGPointMake(x, y)
