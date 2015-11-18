@@ -10,6 +10,9 @@
 		775444791BFA741900C66090 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775444781BFA741900C66090 /* Robot.swift */; };
 		7754447A1BFA741900C66090 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775444781BFA741900C66090 /* Robot.swift */; };
 		7754447B1BFA741900C66090 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775444781BFA741900C66090 /* Robot.swift */; };
+		7754447D1BFC4D8E00C66090 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7754447C1BFC4D8E00C66090 /* ConnectionManager.swift */; };
+		7754447E1BFC4D8E00C66090 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7754447C1BFC4D8E00C66090 /* ConnectionManager.swift */; };
+		7754447F1BFC4D8E00C66090 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7754447C1BFC4D8E00C66090 /* ConnectionManager.swift */; };
 		7788CC981BF5D2F300642062 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7788CC971BF5D2F300642062 /* AppDelegate.swift */; };
 		7788CC9A1BF5D2F300642062 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 7788CC991BF5D2F300642062 /* GameScene.sks */; };
 		7788CC9C1BF5D2F300642062 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7788CC9B1BF5D2F300642062 /* GameScene.swift */; };
@@ -42,6 +45,7 @@
 /* Begin PBXFileReference section */
 		15460EF50621216D7AA12B09 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		775444781BFA741900C66090 /* Robot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
+		7754447C1BFC4D8E00C66090 /* ConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
 		7788CC941BF5D2F300642062 /* MadRobots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MadRobots.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7788CC971BF5D2F300642062 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7788CC991BF5D2F300642062 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -123,6 +127,7 @@
 				7788CC971BF5D2F300642062 /* AppDelegate.swift */,
 				7788CC991BF5D2F300642062 /* GameScene.sks */,
 				7788CC9B1BF5D2F300642062 /* GameScene.swift */,
+				7754447C1BFC4D8E00C66090 /* ConnectionManager.swift */,
 				775444781BFA741900C66090 /* Robot.swift */,
 				7788CC9D1BF5D2F300642062 /* GameViewController.swift */,
 				7788CC9F1BF5D2F300642062 /* Main.storyboard */,
@@ -343,6 +348,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7754447D1BFC4D8E00C66090 /* ConnectionManager.swift in Sources */,
 				775444791BFA741900C66090 /* Robot.swift in Sources */,
 				7788CC9C1BF5D2F300642062 /* GameScene.swift in Sources */,
 				7788CC9E1BF5D2F300642062 /* GameViewController.swift in Sources */,
@@ -355,6 +361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7754447A1BFA741900C66090 /* Robot.swift in Sources */,
+				7754447E1BFC4D8E00C66090 /* ConnectionManager.swift in Sources */,
 				7788CCB11BF5D2F300642062 /* MadRobotsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -364,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7754447B1BFA741900C66090 /* Robot.swift in Sources */,
+				7754447F1BFC4D8E00C66090 /* ConnectionManager.swift in Sources */,
 				7788CCBC1BF5D2F300642062 /* MadRobotsUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

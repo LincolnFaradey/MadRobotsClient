@@ -12,7 +12,7 @@ class GameScene: SKScene {
     let robot = Robot(name: "player", scale: 0.1)
     let scoreLabel = SKLabelNode(fontNamed:"Chalkduster")
     var collisions = 0
-    let websocket = (UIApplication.sharedApplication().delegate as! AppDelegate).websocket
+
     let date = NSDate()
     var center:CGPoint!
     
@@ -23,12 +23,12 @@ class GameScene: SKScene {
         scoreLabel.position = center
         scoreLabel.fontSize = 25
         scoreLabel.text = "Collisions: \(collisions)"
+        self.addChild(scoreLabel)
         
         robot.position = center
         robot.showName = true
-        
         self.addChild(robot)
-        self.addChild(scoreLabel)
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -44,7 +44,7 @@ class GameScene: SKScene {
         ]
         
         let data = try! NSJSONSerialization.dataWithJSONObject(player, options: .PrettyPrinted)
-        websocket.writeData(data)
+        ConnectionManager.sharedInstance.send(data)
     }
     
     

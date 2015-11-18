@@ -10,15 +10,14 @@ import UIKit
 import SpriteKit
 import Starscream
 
-class GameViewController: UIViewController, WebSocketDelegate {
-    let websocket = (UIApplication.sharedApplication().delegate as! AppDelegate).websocket
+class GameViewController: UIViewController, ConnectionManagerDelegate {
     let scene = GameScene(fileNamed:"GameScene")
     var robots = [String: Robot]()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        websocket.delegate = self
+        ConnectionManager.sharedInstance.delegate = self
+        ConnectionManager.sharedInstance.establishConnection()
         
         if let sc = scene {
             // Configure the view.
@@ -35,17 +34,11 @@ class GameViewController: UIViewController, WebSocketDelegate {
             skView.presentScene(sc)
         }
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        websocket.connect()
-    }
 
     
-    //MARK: WebSocketDelegate
-    func websocketDidConnect(socket: WebSocket) {
+    //MARK: ConnectionManagerDelegate
+    func connected() {
         print("Connected")
-
         let player = [
             "name": "\(scene!.date)",
             "x": scene!.robot.position.x,
@@ -54,25 +47,24 @@ class GameViewController: UIViewController, WebSocketDelegate {
         robots["\(scene!.date)"] = scene!.robot
         
         let data = try! NSJSONSerialization.dataWithJSONObject(player, options: .PrettyPrinted)
-        websocket.writeData(data)
+        ConnectionManager.sharedInstance.send(data)
     }
     
-    func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
-        print("Disconnected")
+    func disconnected(error: NSError?) {
+        print("Disconnected with error: \(error?.userInfo)")
     }
-    
-    func websocketDidReceiveMessage(socket: WebSocket, text: String) {
-        let data = text.dataUsingEncoding(NSUTF8StringEncoding)
-        print("recieved")
+
+    func managerDidReceive(data: NSData) {
         do {
-            let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [String: AnyObject]
-            let name = json["name"] as! String
+            let json = try NSJSONSerialization
+                .JSONObjectWithData(data, options: .AllowFragments) as! [String: AnyObject]
             
+            let name = json["name"] as! String
             let x = json["x"] as! CGFloat
             let y = json["y"] as! CGFloat
             
             print(json)
-
+            
             if let p = robots[name] {
                 if x == y && x == 0.0 {
                     p.removeFromParent()
@@ -85,20 +77,18 @@ class GameViewController: UIViewController, WebSocketDelegate {
                 let sp = Robot(name: "robot", scale: 0.1)
                 sp.position = CGPointMake(x, y)
                 sp.userName = name
-                robots[name] = sp
                 sp.showName = true
-                scene?.addChild(robots[name]!)
+                
+                robots[name] = sp
+                scene?.addChild(sp)
             }
             
         } catch let error as NSError {
             print(error.userInfo)
         }
+
     }
-    
-    func websocketDidReceiveData(socket: WebSocket, data: NSData) {
-        print("written")
-    }
-    
+   
     
     override func shouldAutorotate() -> Bool {
         return true
@@ -106,7 +96,7 @@ class GameViewController: UIViewController, WebSocketDelegate {
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
+            return .Portrait
         } else {
             return .All
         }
