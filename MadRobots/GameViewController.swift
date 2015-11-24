@@ -43,12 +43,14 @@ class GameViewController: UIViewController, ConnectionManagerDelegate {
     //MARK: ConnectionManagerDelegate
     func connected() {
         print("Connected")
+        let robot = scene!.robot
+        robot.showName = true
         let player = [
-            "name": "\(scene!.date)",
-            "x": scene!.robot.position.x,
-            "y": scene!.robot.position.y
+            "name": robot.userName,
+            "x": robot.position.x,
+            "y": robot.position.y
         ]
-        robots["\(scene!.date)"] = scene!.robot
+        robots[robot.userName] = robot
         
         let data = try! NSJSONSerialization.dataWithJSONObject(player, options: .PrettyPrinted)
         ConnectionManager.sharedInstance.send(data)
@@ -62,7 +64,7 @@ class GameViewController: UIViewController, ConnectionManagerDelegate {
         do {
             let json = try NSJSONSerialization
                 .JSONObjectWithData(data, options: .AllowFragments) as! [String: AnyObject]
-            
+            print(json)
             let name = json["name"] as! String
             let x = json["x"] as! CGFloat
             let y = json["y"] as! CGFloat
@@ -70,7 +72,8 @@ class GameViewController: UIViewController, ConnectionManagerDelegate {
             print(json)
             
             if let robot = robots[name] {
-                guard x != y && x != 0.0 else {
+                print("x = \(x) and y = \(y)")
+                if x == y && x == 0.0  && scene!.robot.userName != name {
                     robot.removeFromParent()
                     return
                 }

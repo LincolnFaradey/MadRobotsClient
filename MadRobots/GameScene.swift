@@ -26,7 +26,7 @@ class GameScene: SKScene {
         self.addChild(scoreLabel)
         
         robot.position = center
-        robot.showName = true
+//        robot.showName = true
         self.addChild(robot)
         
     }
