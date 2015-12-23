@@ -73,7 +73,7 @@ class GameViewController: UIViewController, ConnectionManagerDelegate {
             
             if let robot = robots[name] {
                 print("x = \(x) and y = \(y)")
-                if x == y && x == 0.0  && scene!.robot.userName != name {
+                if x == y && x == 0.0  && scene!.robot != robot {
                     robot.removeFromParent()
                     return
                 }
